@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-body text-dark bg-surface antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white px-5 py-2.5 rounded-xl font-heading font-semibold text-sm
+           hover:bg-blue-600 active:scale-95 transition-all duration-200 shadow-sm;
+  }
+  .btn-secondary {
+    @apply bg-white text-primary border border-primary px-5 py-2.5 rounded-xl font-heading font-semibold text-sm
+           hover:bg-blue-50 active:scale-95 transition-all duration-200;
+  }
+  .btn-accent {
+    @apply bg-accent text-white px-5 py-2.5 rounded-xl font-heading font-semibold text-sm
+           hover:bg-green-500 active:scale-95 transition-all duration-200 shadow-sm;
+  }
+  .btn-danger {
+    @apply bg-danger text-white px-5 py-2.5 rounded-xl font-heading font-semibold text-sm
+           hover:bg-red-600 active:scale-95 transition-all duration-200;
+  }
+  .card {
+    @apply bg-white rounded-2xl shadow-card p-6;
+  }
+  .input {
+    @apply w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-body
+           focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary
+           placeholder-gray-400 transition-all duration-200 bg-white;
+  }
+  .label {
+    @apply block text-sm font-heading font-semibold text-dark mb-1.5;
+  }
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-heading font-medium
+           text-gray-500 hover:bg-primary/10 hover:text-primary transition-all duration-200 cursor-pointer;
+  }
+  .sidebar-link.active {
+    @apply bg-primary/10 text-primary;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+
+/* Progress bar animation */
+.progress-bar { transition: width 0.6s ease; }
