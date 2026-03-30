@@ -1,8 +1,13 @@
 import axios from 'axios'
 
+// In production VITE_API_URL is set on Vercel
+// In development it falls back to the Vite proxy at /api
+const baseURL = import.meta.env.VITE_API_URL || '/api'
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL,
   headers: { 'Content-Type': 'application/json' },
+  timeout: 30000, // 30 second timeout — needed for Render free tier wake-up
 })
 
 // Attach token on every request
@@ -12,7 +17,7 @@ api.interceptors.request.use((config) => {
   return config
 })
 
-// Global error handler
+// Global response error handler
 api.interceptors.response.use(
   (res) => res,
   (err) => {
