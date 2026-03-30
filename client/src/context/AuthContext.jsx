@@ -9,12 +9,37 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const token = localStorage.getItem('sb_token')
-    const stored = localStorage.getItem('sb_user')
-    if (token && stored) {
-      setUser(JSON.parse(stored))
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    if (!token) {
+      setLoading(false)
+      return
     }
-    setLoading(false)
+
+    const stored = localStorage.getItem('sb_user')
+    if (stored) {
+      setUser(JSON.parse(stored))
+    }
+
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+    const fetchCurrentUser = async () => {
+      try {
+        const { data } = await api.get('/auth/me')
+        if (data?.user) {
+          setUser(data.user)
+          localStorage.setItem('sb_user', JSON.stringify(data.user))
+        }
+      } catch (err) {
+        console.error('Failed to refresh current user:', err?.response?.data?.message || err.message)
+        localStorage.removeItem('sb_token')
+        localStorage.removeItem('sb_user')
+        setUser(null)
+        delete api.defaults.headers.common['Authorization']
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchCurrentUser()
   }, [])
 
   const login = async (email, password) => {
